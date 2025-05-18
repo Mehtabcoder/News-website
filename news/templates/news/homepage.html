@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>News Website</title>
+
+  <!-- Tailwind CSS (no dark mode config needed) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Vanilla Tilt for 3D hover -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+
+  <!-- AOS (Animate On Scroll) CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+</head>
+
+<body class="bg-white text-gray-900 font-sans p-4 max-w-3xl mx-auto">
+
+  
+  <!-- Header -->
+  
+  <h1 
+  class="text-4xl font-extrabold mb-8 text-center text-blue-900"
+  data-aos="zoom-in"
+  data-aos-duration="1000"
+>
+  📰 Latest News
+</h1>
+  News
+</h1>
+
+  <div class="bg-blue-50 rounded-xl p-6 mb-10 text-center shadow">
+  <h2 class="text-3xl font-bold text-blue-900 mb-2">Welcome to trur news</h2>
+  <p class="text-gray-600">Read news here which you can not able to find anywhere else.</p>
+</div>
+
+<div data-aos="fade-up" data-aos-duration="700">
+  <!-- article card -->
+</div>
+
+
+  <!-- News Articles -->
+  {% for article in articles %}
+    <a href="{% url 'article_detail' article.pk %}" data-tilt data-aos="fade-up" data-aos-duration="600"
+       class="block mb-10 group">
+      <div class="bg-white rounded-xl shadow-xl p-4 transition-transform"
+           data-tilt-scale="1.02" data-tilt-speed="400" data-tilt-max="10">      
+
+        <p class="text-sm text-gray-500 mb-1">{{ article.language }}</p>
+        <h2 class="text-2xl font-semibold group-hover:underline mb-2">{{ article.title }}</h2>
+        <p class="text-xs text-gray-400 mb-3">Posted on {{ article.created_at|date:"F d, Y" }}</p>
+
+        {% if article.image %}
+          <img src="{{ article.image.url }}" class="rounded-xl w-full h-60 object-cover mb-4 shadow-lg" />
+        {% endif %}
+
+        <p class="text-gray-700 leading-relaxed">
+          {{ article.content|truncatechars:180 }}
+        </p>
+      </div>
+    </a>
+  {% empty %}
+    <p class="text-center text-gray-500">No news articles available.</p>
+  {% endfor %}
+
+  <!-- AOS Animate On Scroll JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+    VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
+  </script>
+</body>
+</html>
+
+
+
